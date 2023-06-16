@@ -1,7 +1,8 @@
-package com.amlan.androdmvvm
+package com.amlan.androdmvvm.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.amlan.androdmvvm.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
