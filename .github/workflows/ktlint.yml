@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - name: Clone repo
-        uses: actions/checkout@master
+        uses: actions/checkout@main
         with:
           fetch-depth: 1
       - name: ktlint
