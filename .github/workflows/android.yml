@@ -1,3 +1,4 @@
+name: "Build APK And upload to Release"
 on:
   push:
     branches: main
