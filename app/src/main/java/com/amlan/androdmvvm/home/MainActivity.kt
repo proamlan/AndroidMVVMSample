@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                         val list: List<Address> =
                             geocoder.getFromLocation(location.latitude, location.longitude, 1) as List<Address>
                         Logger.e("Got location" + list[0].toString())
+                        Toast.makeText(this, "Location is" + list[0].toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {

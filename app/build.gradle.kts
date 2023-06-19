@@ -18,11 +18,25 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        create("release") {
+            storeFile = file("Keystore.jks")
+            storePassword = "android"
+            keyAlias = "android"
+            keyPassword = "android"
+        }
+    }
 
     buildTypes {
-        release {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
