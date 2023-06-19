@@ -1,7 +1,11 @@
 name: Minimal Android CI Workflow
 
 on:
-  [pull_request],
+  pull_request:
+    branches:
+      -development
+      -qa
+
   push:
     branches:
       - master
