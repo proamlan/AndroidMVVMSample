@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                         val list: List<Address> =
                             geocoder.getFromLocation(location.latitude, location.longitude, 1) as List<Address>
                         Logger.e("Got location" + list[0].toString())
+                        Toast.makeText(this, "Location is" + list[0].toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
@@ -76,9 +77,9 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             return true
         }
