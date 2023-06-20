@@ -9,6 +9,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
@@ -47,10 +48,21 @@ class MainActivity : AppCompatActivity() {
                     Logger.e("Got location " + location.toString())
                     if (location != null) {
                         val geocoder = Geocoder(this, Locale.getDefault())
-                        val list: List<Address> =
-                            geocoder.getFromLocation(location.latitude, location.longitude, 1) as List<Address>
-                        Logger.e("Got location" + list[0].toString())
-                        Toast.makeText(this, "Location is" + list[0].toString(), Toast.LENGTH_SHORT).show()
+
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            geocoder.getFromLocation(location.latitude,location.longitude,1
+                            ) { addresses ->
+                                TODO("Not yet implemented")
+                                Logger.e("Got location" + addresses[0].toString())
+                                Toast.makeText(this@MainActivity, "Location is" + addresses[0].toString(), Toast.LENGTH_SHORT).show()
+                            }
+                        }else{
+                            val list = geocoder.getFromLocation(location.latitude, location.longitude,1)
+                            Logger.e("Got location" + list?.get(0).toString())
+                            Toast.makeText(this, "Location is" + list?.get(0).toString(), Toast.LENGTH_SHORT).show()
+                        }
+
                     }
                 }
             } else {
