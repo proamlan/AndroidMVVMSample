@@ -71,14 +71,4 @@ jobs:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
 
-      - name: Upload Release AAB
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: aab/app-release.aab
-          asset_name: ${{ github.event.repository.name }}.aab
-          asset_content_type: application/zip
-      - run: echo "Upload returned with status=${{ job.status }}."
+
