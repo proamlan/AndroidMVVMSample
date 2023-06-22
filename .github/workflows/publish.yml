@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: AndroidMVVM
-          path: app/build/outputs/apk/release/*.apk
+          path: app/build/outputs/apk/release/AndroidMVVM.apk
   release:
     name: Release APK
     needs: build
@@ -41,7 +41,7 @@ jobs:
       - name: Download APK from build
         uses: actions/download-artifact@v1
         with:
-          name: AndroidMVVMSample
+          name: AndroidMVVM
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -52,4 +52,4 @@ jobs:
           name: Release v${{ github.event.inputs.version }}
           draft: false
           prerelease: false
-          files: app/build/outputs/apk/release/*.apk
+          files: app/build/outputs/apk/release/AndroidMVVM.apk
