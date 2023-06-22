@@ -1,6 +1,8 @@
 name: Android CI for release
 
 on:
+  push:
+    branches: [ main,development ]
   workflow_dispatch:
     inputs:
       version:
