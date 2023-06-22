@@ -11,12 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: setup jdk
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
+          cache: 'gradle'
       - name: Make Gradle executable
         run: chmod +x ./gradlew
       - name: Build Release APK
@@ -24,5 +25,5 @@ jobs:
       - name: Releasing using Hub
         uses: kyze8439690/action-release-releaseapk@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           APP_FOLDER: app
