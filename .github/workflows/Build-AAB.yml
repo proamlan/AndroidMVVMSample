@@ -33,7 +33,7 @@ jobs:
 
       # Run Build Project
       - name: Build gradle project
-        run: ./gradlew build
+        run: ./gradlew bundle
 
       - name: Upload
         uses: actions/upload-artifact@v3
