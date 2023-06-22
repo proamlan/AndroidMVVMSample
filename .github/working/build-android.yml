@@ -1,4 +1,4 @@
-name: Android CI
+name: Android CI for APK and AAB
 
 env:
   # The name of the main module repository
