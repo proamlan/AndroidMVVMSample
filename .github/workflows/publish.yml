@@ -1,39 +1,56 @@
-name: Android CI for release
+name: Release
 
 on:
   push:
-    branches: [ main,development ]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Application version'
-        required: true
-        default: '1.2.0'
+    branches: [ 'main' ,'development' ]
+
 jobs:
-  build:
-    name: Build Signed APK
+  release:
+    name: Release
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 17
+
+      # Set Current Date As Env Variable
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      # Set Repository Name As Env Variable
+      - name: Set repository name as env variable
+        run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+
+      - name: Set Up JDK
         uses: actions/setup-java@v3
         with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+          cache: 'gradle'
 
-      - name: Build APK
-        run: ./gradlew :app:assembleRelease -x test
-      - name: Verify Signature
-        run: $ANDROID_SDK_ROOT/build-tools/33.0.1/apksigner verify --print-certs app/build/outputs/apk/release/*.apk
-      - name: Upload APK
-        uses: actions/upload-artifact@v3.1.2
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      # Run Tests Build
+      - name: Run gradle tests
+        run: ./gradlew test
+
+      # Run Build Project
+      - name: Build gradle project
+        run: ./gradlew build
+
+      - name: Upload
+        uses: actions/upload-artifact@v2
         with:
-          name: app*
-          path:
-            app/build/outputs/apk/release/
-            app/build/outputs/bundle/release/
+          name: Build Artifacts
+          path: app/build/outputs/
 
+      - name: Save name of our Artifact
+        id: set-result-artifact
+        run: |
+          ARTIFACT_PATHNAME_APK=$(ls app/build/outputs/apk/debug/app-debug.apk | head -n 1)
+          ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
+          echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
+          echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
+          echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
 
+    
