@@ -27,12 +27,12 @@ jobs:
       - name: Build APK
         run: ./gradlew :app:assembleRelease -x test
       - name: Verify Signature
-        run: $ANDROID_SDK_ROOT/build-tools/33.0.1/apksigner verify --print-certs app/build/outputs/apk/release/Addressbook_${{ github.event.inputs.version }}.apk
+        run: $ANDROID_SDK_ROOT/build-tools/33.0.1/apksigner verify --print-certs app/build/outputs/apk/release/*.apk
       - name: Upload APK
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: addressbook
-          path: app/build/outputs/apk/release/AndroidMVVMSample_${{ github.event.inputs.version }}.apk
+          name: AndroidMVVM
+          path: app/build/outputs/apk/release/*.apk
   release:
     name: Release APK
     needs: build
