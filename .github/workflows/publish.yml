@@ -1,84 +1,53 @@
-name: Release
+name: Android CI for release
 
 on:
-  push:
-    branches: [ 'main' ,'development' ]
-
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Application version'
+        required: true
+        default: '1.2.0'
 jobs:
-  release:
-    name: Release
+  build:
+    name: Build Signed APK
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-
-      # Set Current Date As Env Variable
-      - name: Set current date as env variable
-        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-
-      # Set Repository Name As Env Variable
-      - name: Set repository name as env variable
-        run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
-
-      - name: Set Up JDK
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '17'
-          cache: 'gradle'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-
-      # Run Tests Build
-      - name: Run gradle tests
-        run: ./gradlew test
-
-      # Run Build Project
-      - name: Build gradle project
-        run: ./gradlew build
-
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: Build Artifacts
-          path: app/build/outputs/
-
-
-      # Save the APK after the Build job is complete to publish it as a Github release in the next job
+      - name: Build APK
+        run: ./gradlew :app:assembleRelease -x test
+      - name: Verify Signature
+        run: $ANDROID_SDK_ROOT/build-tools/33.0.1/apksigner verify --print-certs app/build/outputs/apk/release/Addressbook_${{ github.event.inputs.version }}.apk
       - name: Upload APK
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: <<application name>>
-          path: app/build/outputs/apk/release/<<application name>>_${{ github.event.inputs.version }}.apk
-
-      - name: Release APK
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-          - name: Download APK from build
-            uses: actions/download-artifact@v1
-            with:
-              name: <<application name>>
-          - name: Create Release
-            id: create_release
-            uses: softprops/action-gh-release@v1
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            with:
-              tag_name: v${{ github.event.inputs.version }}
-              name: Release v${{ github.event.inputs.version }}
-              draft: false
-              prerelease: false
-              files: <<application name>>/<<application name>>_${{ github.event.inputs.version }}.apk
-
-      - name: Save name of our Artifact
-        id: set-result-artifact
-        run: |
-          ARTIFACT_PATHNAME_APK=$(ls app/build/outputs/apk/debug/app-debug.apk | head -n 1)
-          ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
-          echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
-          echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
-          echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
-
-    
+          name: addressbook
+          path: app/build/outputs/apk/release/AndroidMVVMSample_${{ github.event.inputs.version }}.apk
+  release:
+    name: Release APK
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from build
+        uses: actions/download-artifact@v1
+        with:
+          name: AndroidMVVMSample
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: Release v${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+          files: AndroidMVVMSample/AndroidMVVMSample_${{ github.event.inputs.version }}.apk
