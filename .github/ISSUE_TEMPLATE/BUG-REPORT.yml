@@ -58,7 +58,6 @@ body:
         - Blocker
     validations:
       required: false
-
   - type: input
     id: version
     attributes:
