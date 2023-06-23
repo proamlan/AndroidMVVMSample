@@ -1,4 +1,4 @@
-name: Bug Report
+name: Report a BUG
 description: File a bug report
 title: "[Bug]: "
 labels: ["bug", "triage"]
@@ -11,7 +11,11 @@ body:
       label: Steps to reproduce
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "Steps"
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error"Steps"
     validations:
       required: true
   - type: dropdown
