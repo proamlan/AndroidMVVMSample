@@ -11,7 +11,7 @@ body:
       label: Steps to reproduce
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "Steps "
+      value: "Steps"
     validations:
       required: true
   - type: dropdown
@@ -30,9 +30,9 @@ body:
       label: Is the issue reproducible always?
       multiple: true
       options:
-        - Yes
-        - No
-        - Intermittent
+        - "Yes"
+        - "No"
+        - "Intermittent"
   - type: textarea
     id: logs
     attributes:
