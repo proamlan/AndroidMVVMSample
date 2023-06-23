@@ -1,8 +1,8 @@
-name: "🐛 Bug Report"
+name: "Report Issue"
 description: Create a new ticket for a bug.
-title: "🐛 [BUG] - <title>"
+title: "[ISSUE] - <title>"
 labels: [
-  "bug"
+  "issue"
 ]
 body:
   - type: textarea
@@ -45,23 +45,14 @@ body:
     validations:
       required: false
   - type: dropdown
-    id: browsers
+    id: reproducible
     attributes:
-      label: "Priority"
-      description: Whats the Priority ?
+      label: "Reproducible"
+      description: Is the issue reproducible ?
       multiple: true
       options:
-        - Low
-        - Medium
-        - High
-        - Highest
-        - Blocker
+        - "Yes"
+        - "No"
+        - "Intermittent"
     validations:
       required: false
-  - type: input
-    id: version
-    attributes:
-      label: "Version"
-      description: Please enter which version
-      placeholder: 1.0.0
-
