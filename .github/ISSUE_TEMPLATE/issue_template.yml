@@ -8,10 +8,10 @@ body:
   - type: textarea
     id: what-happened
     attributes:
-      label: What happened?
+      label: Steps to reproduce
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "A bug happened!"
+      value: "Steps "
     validations:
       required: true
   - type: dropdown
@@ -27,13 +27,12 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: Is the issue reproducible always?
       multiple: true
       options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+        - Yes
+        - No
+        - Intermittent
   - type: textarea
     id: logs
     attributes:
