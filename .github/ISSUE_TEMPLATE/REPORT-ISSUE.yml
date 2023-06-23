@@ -1,9 +1,8 @@
 name: "Report Issue"
 description: Create a new ticket for a bug.
 title: "[ISSUE] - <title>"
-labels: [
-  "issue"
-]
+labels: ["bug", "issue"]
+
 body:
   - type: textarea
     id: description
@@ -23,7 +22,6 @@ body:
         2. Click on '....'
         3. Scroll down to '....'
         4. See error
-      render: bash
     validations:
       required: true
   - type: textarea
@@ -32,7 +30,7 @@ body:
       label: "Screenshots"
       description: If applicable, add screenshots to help explain your problem.
       placeholder: |
-        ![DESCRIPTION](LINK.png)
+        Drag and drop image or video
       render: bash
     validations:
       required: false
