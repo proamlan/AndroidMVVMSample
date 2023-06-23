@@ -31,7 +31,7 @@ body:
     attributes:
       label: "Screenshots"
       description: If applicable, add screenshots to help explain your problem.
-      value: |
+      placeholder: |
         ![DESCRIPTION](LINK.png)
       render: bash
     validations:
@@ -56,3 +56,11 @@ body:
         - "Intermittent"
     validations:
       required: false
+  - type: textarea
+    id: comments
+    attributes:
+      label: "Comments If Any"
+      description: Please comment if any
+      render: bash
+    validations:
+      required: true
