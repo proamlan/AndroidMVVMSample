@@ -13,14 +13,6 @@ body:
       placeholder: Short and explicit description of your incident...
     validations:
       required: true
-  - type: input
-    id: reprod-url
-    attributes:
-      label: "Reproduction URL"
-      description: Please enter your GitHub URL to provide a reproduction of the issue
-      placeholder: ex. https://github.com/USERNAME/REPO-NAME
-    validations:
-      required: true
   - type: textarea
     id: reprod
     attributes:
@@ -55,26 +47,23 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: "Browsers"
-      description: What browsers are you seeing the problem on ?
+      label: "Priority"
+      description: Whats the Priority ?
       multiple: true
       options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-        - Opera
+        - Low
+        - Medium
+        - High
+        - Highest
+        - Blocker
     validations:
       required: false
-  - type: dropdown
-    id: os
+
+  - type: input
+    id: version
     attributes:
-      label: "OS"
-      description: What is the impacted environment ?
-      multiple: true
-      options:
-        - Windows
-        - Linux
-        - Mac
-    validations:
-      required: false
+      label: "Version"
+      description: Please enter which version
+      placeholder: 1.0.0
+      validations:
+        required: true
