@@ -64,5 +64,4 @@ body:
       label: "Version"
       description: Please enter which version
       placeholder: 1.0.0
-      validations:
-        required: true
+
