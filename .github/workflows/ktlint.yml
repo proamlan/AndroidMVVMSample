@@ -20,4 +20,4 @@ jobs:
 
       # Run Tests Build
       - name: Run gradle tests
-        run: ./gradlew ktlint
+        run: ./gradlew ktlintCheck
